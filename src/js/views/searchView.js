@@ -43,6 +43,18 @@ const renderRecipe = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', markup);
 };
 
-export const renderResults = recipes => {
-    recipes.forEach(renderRecipe);
+
+const renderButtons = (page, numResults, resPerPage) => {
+    const pages = Math.ceil(numResults / resPerPage);
+
+    if(page===1){
+        //button to go to next page
+    }
+
+}
+
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    const start = (page -1) * resPerPage;
+    const end = page * resPerPage;
+    recipes.slice(start, end).forEach(renderRecipe);
 };
