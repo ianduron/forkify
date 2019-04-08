@@ -50,6 +50,7 @@ export default class Recipe {
 
             let objIng;
             if(unitIndex > -1){
+                //
                 //There is a unit
                 const arrCount = arrIng.slice(0, unitIndex);
 
