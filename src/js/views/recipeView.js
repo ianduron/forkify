@@ -1,3 +1,41 @@
+import {elements, elementStrings} from './base';
+import { Fraction } from 'fractional';
+
+export const clearRecipe = () => {
+    elements.recipe.innerHTML = '';
+};
+
+
+const formatCount = count => {
+    if (count) {
+        //count = 2.5 convert to 2 1/2
+        //count = 0.5 convert to 1/2
+        const [int, dec] = count.toString().split('.').map(el => parseInt(el, 10)); //separate integer and decimal (parse from string to integer)
+
+        if(!dec) return count; //if no decimal just return count
+
+        if(int === 0){
+            const fr = new Fraction(count);
+            return `${fr.numerator}/${fr.denominator}`;
+        } else {
+            const fr =
+        }
+    }
+};
+
+const createIngredient = ingredient => `
+    <li class="recipe__item">
+            <svg class="recipe__icon">
+                <use href="img/icons.svg#icon-check"></use>
+            </svg>
+            <div class="recipe__count">${formatCount(ingredient.count)}</div>
+            <div class="recipe__ingredient">
+                <span class="recipe__unit">${ingredient.unit}</span>
+                ${ingredient.ingredient}
+            </div>
+        </li>
+`;
+
 export const renderRecipe = recipe => {
     const markup = `
     <figure class="recipe__fig">
@@ -41,6 +79,7 @@ export const renderRecipe = recipe => {
 </div>
 <div class="recipe__ingredients">
     <ul class="recipe__ingredient-list">
+        ${recipe.ingredients.map(el => createIngredient(el)).join('')}
         <li class="recipe__item">
             <svg class="recipe__icon">
                 <use href="img/icons.svg#icon-check"></use>
@@ -124,4 +163,5 @@ export const renderRecipe = recipe => {
 </div>
 
     `;
+    elements.recipe.insertAdjacentElement('afterbegin', markup);
 };
