@@ -33,12 +33,13 @@ export default class Recipe {
     parseIngredients() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+        const units = [...unitsShort, 'kg', 'g']; //array decomposition ...
 
         const newIngredients = this.ingredients.map(el => {
             // 1) Uniform units
             let ingredient = el.toLowerCase();
             unitsLongs.forEeach((unit, i) => {
-                ingredient = ingredient.replace(unit, unitsShort[i]);
+                ingredient = ingredient.replace(unit, units[i]);
             });
 
             // 2) Remove parentheses//
@@ -64,8 +65,9 @@ export default class Recipe {
                 objIng = {
                     count,
                     unit: arrIng[unitIndex],
-                    ingredient: arrIng.slice(unitIndex + 1).join(' ');
+                    ingredient: arrIng.slice(unitIndex + 1).join(' ')
                 };
+
             } else if (parseInt(arrIng[0], 10)) {
                 //There is NO unit, but 1st element is a number
                 objIng = {
@@ -82,7 +84,7 @@ export default class Recipe {
                 }
             }
 
-            }
+            
             return objIng;
         });
         this.ingredients = newIngredients;

@@ -65,6 +65,9 @@ const controlRecipe = async() => {
         recipeView.clearRecipe();
         renderLoader(elements.recipe);
 
+        //Highlight selected search item 
+        if(state.search) searchView.highlightSelected(id);
+
         //Create a new recipe object
         state.recipe = new Recipe(id);
 
@@ -77,7 +80,7 @@ const controlRecipe = async() => {
 
             //Calculate servings and time
             state.recipe.calcTime();
-            state.recipe.calcServings();
+            state.recipe.cal cServings();
 
             //Render recipe
             clearLoader();
@@ -91,3 +94,19 @@ const controlRecipe = async() => {
 
 
 ['haschange', 'load'].forEach(event => window.addEventListener(event, controlRecipe)); //attaches an event listener to 2 different events
+
+//Handling recipe button clicks
+elements.recipe.addEventListener('click', e=> {
+    if(e.target.matches('.btn-decrease', '.btn-decrease *')){
+        //Decrease button is clicked
+        if(state.recipe.servings > 1){
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);
+        }
+    }
+    else if(e.target.matches('.btn-increase', '.btn-increase *')){
+        //Decrease button is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    }}
+});
