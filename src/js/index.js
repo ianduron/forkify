@@ -8,6 +8,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
 //import { stat } from 'fs';
 
 const state = {};
+window.state = state;
 
 const controlSearch = async () => {
     // 1) Get query from view
@@ -109,6 +110,25 @@ const controlList = () => {
 }
 
 ['haschange', 'load'].forEach(event => window.addEventListener(event, controlRecipe)); //attaches an event listener to 2 different events
+
+//Handle delete and update list item events
+elements.shopping.addEventListener('click', e=> {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    //Handle the delete button
+    if(e.target.matches('.shopping__delete, .shopping__delete *')) {
+        //Delete from state
+        state.list.deleteItem(id);
+
+        //Delete from UI
+        listView.deleteItem(id);
+
+    // Handle the count update   
+    } else if (e.target.matches('.shopping__count-value')) {
+        const val = parseFloat(e.target.value, 10);
+        state.list.updateCount(id, val);
+    }
+});
 
 //Handling recipe button clicks
 elements.recipe.addEventListener('click', e=> {
